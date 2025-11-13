@@ -30,7 +30,7 @@ pipeline {
                     sh 'npm ci'
                     sh 'npm test'
                     sh 'mkdir -p reports'
-                    sh 'mv coverage reports/'
+                    sh 'rm -rf reports/coverage && mv coverage reports/'
                 }
             }
             post{
