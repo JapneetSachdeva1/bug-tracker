@@ -24,7 +24,8 @@ jobs:
       - name: Run UI tests
         working-directory: ./tests-e2e
         run: |
-          npm install
+          npm ci
+          npx playwright install
           npx playwright test
 
       - name: Shutdown application
