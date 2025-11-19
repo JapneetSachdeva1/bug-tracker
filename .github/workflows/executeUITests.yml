@@ -2,10 +2,10 @@ name: ci_workflow
 on:
   push:
     branches:
-      - develop
+      - main
   pull_request:
     branches:
-      - develop
+      - main
   workflow_dispatch:
 
 jobs:
@@ -21,8 +21,8 @@ jobs:
           docker compose up --build -d
           npx wait-port http://localhost:8080/api/health -t 30000
 
-      - name: Run API tests
-        working-directory: ./tests-api
+      - name: Run UI tests
+        working-directory: ./tests-e2e
         run: |
           npm install
           npx playwright test
@@ -31,20 +31,20 @@ jobs:
         run: |
           docker compose down
 
-      - name: API Test Results
+      - name: UI Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: api-test-results
-          path: ./tests-api/test-results/
+          name: ui-test-results
+          path: ./tests-e2e/test-results/
           retention-days: 7
 
-      - name: API Test Report
+      - name: UI Test Report
         if: always()
         uses: actions/upload-artifact@v4
         with: 
-          name: api-test-report
-          path: ./tests-api/playwright-report/
+          name: ui-test-report
+          path: ./tests-e2e/playwright-report/
           retention-days: 7
       
       - name: Publish API Test Results
@@ -52,5 +52,5 @@ jobs:
         if: always()
         with: 
           name: API Test Results
-          path: ./tests-api/test-results/*.xml
+          path: ./tests-e2e/test-results/*.xml
           reporter: jest-junit
