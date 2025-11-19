@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  api-tests: 
+  e2e-tests: 
     runs-on: ubuntu-latest
   
     steps: 
@@ -47,10 +47,10 @@ jobs:
           path: ./tests-e2e/playwright-report/
           retention-days: 7
       
-      - name: Publish API Test Results
+      - name: Publish UI Test Results
         uses: dorny/test-reporter@v1
         if: always()
         with: 
-          name: API Test Results
+          name: UI Test Results
           path: ./tests-e2e/test-results/*.xml
           reporter: jest-junit
